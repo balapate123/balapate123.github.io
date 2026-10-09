@@ -197,7 +197,7 @@
     .game-shell { grid-template-columns: minmax(0, 1.15fr) minmax(270px, .85fr); gap: 24px; }
     .game-stage, .game-info { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); }
     .game-stage { min-height: 470px; display: grid; place-items: center; padding: 20px; overflow: hidden; }
-    #snake-canvas { width: min(100%, 420px); aspect-ratio: 1; height: auto; background: #06100e; border: 1px solid #24443a; border-radius: 8px; image-rendering: pixelated; }
+    #runner-canvas { width: 100%; max-width: 700px; aspect-ratio: 16 / 8.5; height: auto; background: #06100e; border: 1px solid #24443a; border-radius: 8px; image-rendering: pixelated; touch-action: manipulation; cursor: pointer; }
     .game-info { padding: 30px; }
     .game-info h3 { font-size: 30px; margin: 0 0 10px; }
     .game-info p { color: var(--muted); }
@@ -215,24 +215,64 @@
     .cmd-row input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: white; font-family: var(--mono); }
     .cmd-help { color: #8eb7a9; }
     .cmd-accent { color: #ffbf79; }
-    .sim-shell { display: grid; grid-template-columns: minmax(0, 1fr) minmax(290px, .85fr); gap: 24px; }
-    .sim-form, .sim-results { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(22px, 4vw, 35px); }
-    .sim-note { color: var(--muted); font-size: 13px; margin-top: 0; }
-    .debt-row { display: grid; grid-template-columns: 1.3fr .8fr .65fr auto; gap: 9px; margin-bottom: 9px; }
+    .sim-shell { display: grid; grid-template-columns: minmax(360px, .78fr) minmax(0, 1.22fr); gap: 24px; align-items: start; }
+    .sim-form, .sim-results { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(22px, 3.5vw, 34px); }
+    .sim-form h3 { margin: 0 0 7px; font-size: 28px; letter-spacing: -.035em; }
+    .sim-note { color: var(--muted); font-size: 13px; margin: 0 0 22px; }
+    .debt-total { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin: 0 0 22px; padding: 16px 17px; background: color-mix(in srgb, var(--accent) 10%, var(--panel-2)); border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--line)); border-radius: 10px; }
+    .debt-total span { color: var(--muted); font: 600 10px/1.2 var(--mono); }
+    .debt-total strong { color: var(--accent); font-size: clamp(24px, 3vw, 32px); line-height: 1; letter-spacing: -.04em; white-space: nowrap; }
+    .debt-table-head { display: grid; grid-template-columns: 1.2fr .82fr .6fr .78fr 38px; gap: 8px; padding: 0 0 8px; color: var(--muted); font: 10px/1.2 var(--mono); }
+    .debt-row { display: grid; grid-template-columns: 1.2fr .82fr .6fr .78fr 38px; gap: 8px; margin-bottom: 9px; }
     .field { display: grid; gap: 6px; }
-    .field label { color: var(--muted); font: 10px/1 var(--mono); }
-    .field input { width: 100%; min-width: 0; border: 1px solid var(--line); background: var(--bg-2); color: var(--ink); border-radius: 7px; padding: 11px; }
-    .remove-debt { align-self: end; height: 42px; width: 42px; border: 1px solid var(--line); background: transparent; border-radius: 7px; cursor: pointer; }
+    .field label { display: none; color: var(--muted); font: 10px/1 var(--mono); }
+    .field input { width: 100%; min-width: 0; height: 42px; border: 1px solid var(--line); background: var(--bg-2); color: var(--ink); border-radius: 7px; padding: 10px; }
+    .field input:focus { border-color: var(--accent); }
+    .remove-debt { align-self: end; height: 42px; width: 38px; border: 1px solid var(--line); background: transparent; border-radius: 7px; cursor: pointer; color: var(--muted); }
+    .remove-debt:hover { color: var(--danger); border-color: var(--danger); }
+    .extra-payment { display: grid; grid-template-columns: 1fr 138px; gap: 16px; align-items: center; margin-top: 20px; padding: 17px; background: var(--panel-2); border-radius: 10px; }
+    .extra-payment strong { display: block; font-size: 14px; }
+    .extra-payment span { display: block; color: var(--muted); font-size: 11px; margin-top: 3px; }
+    .extra-payment .field label { display: block; }
     .sim-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 18px; }
     .sim-actions button { border: 1px solid var(--line); background: var(--panel-2); border-radius: 8px; padding: 11px 14px; cursor: pointer; font: 600 12px/1 var(--mono); }
-    .sim-actions .calculate { background: var(--accent); color: #07120f; border-color: var(--accent); }
-    .order-group + .order-group { margin-top: 28px; }
-    .order-group h4 { margin: 0 0 12px; font: 600 12px/1 var(--mono); color: var(--accent-2); }
-    .order-list { list-style: none; padding: 0; margin: 0; counter-reset: debts; display: grid; gap: 8px; }
-    .order-list li { counter-increment: debts; display: flex; justify-content: space-between; gap: 15px; background: var(--panel-2); padding: 11px 13px; border-radius: 7px; font-size: 13px; }
-    .order-list li::before { content: counter(debts, decimal-leading-zero); color: var(--accent); font-family: var(--mono); }
-    .order-list li span:first-of-type { flex: 1; }
-    .order-list li span:last-of-type { color: var(--muted); font-family: var(--mono); }
+    .sim-actions button:hover { border-color: var(--accent); }
+    .sim-actions .calculate { background: var(--accent); color: #07120f; border-color: var(--accent); margin-left: auto; }
+    .sim-error { min-height: 20px; margin: 12px 0 0; color: var(--danger); font-size: 12px; }
+    .sim-results { display: grid; gap: 22px; min-width: 0; }
+    .winner-banner { padding: 18px 20px; background: color-mix(in srgb, var(--accent) 13%, var(--panel-2)); border: 1px solid color-mix(in srgb, var(--accent) 42%, var(--line)); border-radius: 11px; }
+    .winner-banner span { display: block; color: var(--accent); font: 600 10px/1 var(--mono); margin-bottom: 8px; }
+    .winner-banner strong { display: block; font-size: clamp(17px, 2vw, 23px); line-height: 1.3; letter-spacing: -.025em; }
+    .strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+    .strategy-card { background: var(--panel-2); border-radius: 12px; padding: 18px; min-width: 0; }
+    .strategy-card h4 { margin: 0; font-size: 17px; }
+    .strategy-card > p { color: var(--muted); font-size: 11px; margin: 3px 0 15px; }
+    .strategy-card.avalanche h4, .strategy-card.avalanche .metric strong { color: var(--accent); }
+    .strategy-card.snowball h4, .strategy-card.snowball .metric strong { color: var(--accent-2); }
+    .strategy-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+    .metric:first-child { grid-column: 1 / -1; }
+    .metric span { display: block; color: var(--muted); font: 9px/1.2 var(--mono); }
+    .metric strong { display: block; font-size: 17px; margin-top: 5px; letter-spacing: -.025em; }
+    .payoff-title { margin: 16px 0 10px; color: var(--muted); font: 600 10px/1 var(--mono); }
+    .payoff-order { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+    .payoff-order li { min-width: 0; }
+    .debt-order-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 5px; font-size: 11px; }
+    .debt-order-head b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .debt-order-head span { color: var(--muted); font: 9px/1 var(--mono); white-space: nowrap; }
+    .debt-bar { display: block; height: 6px; border-radius: 4px; overflow: hidden; background: var(--bg-2); }
+    .debt-bar i { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
+    .snowball .debt-bar i { background: var(--accent-2); }
+    .chart-card { min-width: 0; border-top: 1px solid var(--line); padding-top: 20px; }
+    .chart-head { display: flex; align-items: end; justify-content: space-between; gap: 14px; margin-bottom: 13px; }
+    .chart-head h4 { margin: 0; font-size: 16px; }
+    .chart-head p { margin: 3px 0 0; color: var(--muted); font-size: 11px; }
+    .chart-legend { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; color: var(--muted); font: 10px/1 var(--mono); }
+    .chart-legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .chart-legend i { width: 18px; height: 3px; border-radius: 2px; background: var(--accent); }
+    .chart-legend span:last-child i { background: var(--accent-2); }
+    .chart-wrap { position: relative; width: 100%; height: 250px; }
+    #balance-chart { display: block; width: 100%; height: 100%; }
+    .chart-empty { display: grid; place-items: center; min-height: 250px; color: var(--muted); text-align: center; border: 1px dashed var(--line); border-radius: 9px; padding: 24px; }
 
     .stack-groups { display: grid; grid-template-columns: repeat(5, 1fr); gap: 13px; }
     .stack-group { padding: 23px; border-top: 2px solid var(--line); background: color-mix(in srgb, var(--panel) 80%, transparent); }
@@ -289,9 +329,18 @@
       .xp-tabs { grid-template-columns: 1fr; overflow: visible; }
       .xp-tab { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; }
       .xp-tab span { margin-top: 0; }
-      .debt-row { grid-template-columns: 1fr 1fr; padding: 14px; border: 1px solid var(--line); border-radius: 9px; }
-      .debt-row .field:first-child { grid-column: 1 / -1; }
-      .remove-debt { grid-column: 2; justify-self: end; }
+      .debt-table-head { display: none; }
+      .debt-row { position: relative; grid-template-columns: 1fr 1fr; padding: 14px; border: 1px solid var(--line); border-radius: 9px; }
+      .debt-row .field label { display: block; }
+      .debt-row .field:first-child, .debt-row .field:nth-child(4) { grid-column: 1 / -1; }
+      .debt-row .field:first-child { padding-right: 43px; }
+      .remove-debt { position: absolute; top: 14px; right: 14px; }
+      .extra-payment { grid-template-columns: 1fr; }
+      .sim-actions .calculate { margin-left: 0; }
+      .strategy-grid { grid-template-columns: 1fr; }
+      .chart-head { align-items: start; flex-direction: column; }
+      .chart-legend { justify-content: flex-start; }
+      .chart-wrap { height: 225px; }
       .stack-groups { grid-template-columns: 1fr 1fr; }
       .stack-group:last-child { grid-column: 1 / -1; }
       .footer-inner { flex-direction: column; }
@@ -402,22 +451,52 @@
 
   <section class="playground" id="playground">
     <div class="wrap">
-      <div class="section-head"><div><div class="section-index">04 / PLAYGROUND</div><h2>Take a break. Press some buttons.</h2></div><p>Three tiny experiments: arcade nostalgia, command-line mischief, and a practical debt ordering tool.</p></div>
+      <div class="section-head"><div><div class="section-index">04 / PLAYGROUND</div><h2>Take a break. Press some buttons.</h2></div><p>Three tiny experiments: an endless runner, command-line mischief, and a practical debt payoff lab.</p></div>
       <div class="play-tabs" role="tablist" aria-label="Playground demos">
-        <button class="play-tab active" role="tab" aria-selected="true" data-play="snake">Snake.exe</button>
+        <button class="play-tab active" role="tab" aria-selected="true" data-play="runner">Dino.run</button>
         <button class="play-tab" role="tab" aria-selected="false" data-play="terminal">Terminal</button>
         <button class="play-tab" role="tab" aria-selected="false" data-play="simulator">Debt Lab</button>
       </div>
-      <div class="play-panel game-shell active" id="play-snake" role="tabpanel">
-        <div class="game-stage"><canvas id="snake-canvas" width="420" height="420" aria-label="Playable Snake game"></canvas></div>
-        <div class="game-info"><h3>Snake.exe</h3><p>Eat the orange packets. Avoid the walls and your own backlog. Use arrow keys, WASD, or the controls.</p><div class="scoreboard"><div><span>SCORE</span><strong id="snake-score">0</strong></div><div><span>BEST THIS VISIT</span><strong id="snake-best">0</strong></div></div><button class="button primary" type="button" id="snake-start">Start game</button><div class="dpad" aria-label="Snake controls"><button class="up" data-dir="up" aria-label="Up">↑</button><button class="left" data-dir="left" aria-label="Left">←</button><button class="down" data-dir="down" aria-label="Down">↓</button><button class="right" data-dir="right" aria-label="Right">→</button></div></div>
+      <div class="play-panel game-shell active" id="play-runner" role="tabpanel">
+        <div class="game-stage"><canvas id="runner-canvas" width="700" height="372" tabindex="0" role="button" aria-label="Playable endless runner. Tap or press Space to jump."></canvas></div>
+        <div class="game-info"><h3>Dino.run</h3><p>Jump the cactus queue. Flying bugs join as your score climbs, and the sprint gets faster. Tap the game, click, or press Space / Arrow Up.</p><div class="scoreboard"><div><span>SCORE</span><strong id="runner-score">0</strong></div><div><span>BEST THIS VISIT</span><strong id="runner-best">0</strong></div></div><button class="button primary" type="button" id="runner-start">Start run</button><p class="sim-note">One input, zero excuses. Tap again after a crash to restart.</p></div>
       </div>
       <div class="play-panel terminal-play" id="play-terminal" role="tabpanel">
         <div class="terminal-interactive"><div class="terminal-output" id="cmd-output"><div class="cmd-accent">BhargavOS 1.0.0</div><div class="cmd-help">Type “help” to see available commands. There may be an easter egg.</div></div><form class="cmd-row" id="cmd-form"><label for="cmd-input">visitor@portfolio:~$</label><input id="cmd-input" autocomplete="off" spellcheck="false" aria-label="Terminal command" /></form></div>
       </div>
       <div class="play-panel sim-shell" id="play-simulator" role="tabpanel">
-        <div class="sim-form"><h3>Debt payoff order</h3><p class="sim-note">Sample debts are loaded for the demo. Edit them, add yours, then compare avalanche and snowball ordering. Calculations stay in this page and reset when you leave.</p><div id="debt-rows"></div><div class="sim-actions"><button type="button" id="add-debt">+ Add debt</button><button type="button" class="calculate" id="calc-debt">Compare methods</button></div></div>
-        <div class="sim-results" aria-live="polite"><div class="order-group"><h4>AVALANCHE · HIGHEST APR FIRST</h4><ol class="order-list" id="avalanche-list"></ol></div><div class="order-group"><h4>SNOWBALL · LOWEST BALANCE FIRST</h4><ol class="order-list" id="snowball-list"></ol></div></div>
+        <div class="sim-form">
+          <h3>Build a payoff plan</h3>
+          <p class="sim-note">Enter each balance, APR, and required minimum. Both methods keep the same monthly budget; extra cash and freed minimums attack the focused debt.</p>
+          <div class="debt-total"><span>TOTAL DEBT</span><strong id="total-debt" aria-live="polite">$0</strong></div>
+          <div class="debt-table-head" aria-hidden="true"><span>DEBT</span><span>BALANCE</span><span>APR</span><span>MINIMUM</span><span></span></div>
+          <div id="debt-rows"></div>
+          <div class="extra-payment">
+            <div><strong>Extra monthly payment</strong><span>Added on top of all minimums</span></div>
+            <div class="field"><label for="extra-payment">EXTRA ($)</label><input id="extra-payment" type="number" min="0" step="1" value="250" inputmode="decimal" /></div>
+          </div>
+          <div class="sim-actions"><button type="button" id="load-sample">Load sample debts</button><button type="button" id="add-debt">+ Add debt</button><button type="button" class="calculate" id="calc-debt">Run comparison →</button></div>
+          <p class="sim-error" id="sim-error" role="alert"></p>
+        </div>
+        <div class="sim-results" aria-live="polite">
+          <div class="winner-banner"><span>STRATEGY VERDICT</span><strong id="winner-text">Load the sample or enter your debts to compare payoff plans.</strong></div>
+          <div class="strategy-grid">
+            <article class="strategy-card avalanche">
+              <h4>Avalanche</h4><p>Highest APR first</p>
+              <div class="strategy-metrics"><div class="metric"><span>DEBT-FREE DATE</span><strong id="avalanche-date">—</strong></div><div class="metric"><span>TOTAL INTEREST</span><strong id="avalanche-interest">—</strong></div><div class="metric"><span>MONTHS</span><strong id="avalanche-months">—</strong></div></div>
+              <div class="payoff-title">PAYOFF ORDER</div><ol class="payoff-order" id="avalanche-list"></ol>
+            </article>
+            <article class="strategy-card snowball">
+              <h4>Snowball</h4><p>Smallest balance first</p>
+              <div class="strategy-metrics"><div class="metric"><span>DEBT-FREE DATE</span><strong id="snowball-date">—</strong></div><div class="metric"><span>TOTAL INTEREST</span><strong id="snowball-interest">—</strong></div><div class="metric"><span>MONTHS</span><strong id="snowball-months">—</strong></div></div>
+              <div class="payoff-title">PAYOFF ORDER</div><ol class="payoff-order" id="snowball-list"></ol>
+            </article>
+          </div>
+          <div class="chart-card">
+            <div class="chart-head"><div><h4>Balance over time</h4><p>Total remaining principal by month</p></div><div class="chart-legend" aria-label="Chart legend"><span><i></i>Avalanche</span><span><i></i>Snowball</span></div></div>
+            <div class="chart-wrap"><canvas id="balance-chart" role="img" aria-label="Line chart comparing remaining debt balance over time"></canvas></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -514,6 +593,7 @@
       tab.classList.add('active'); tab.setAttribute('aria-selected', 'true');
       document.getElementById('play-' + tab.dataset.play).classList.add('active');
       if (tab.dataset.play === 'terminal') setTimeout(function(){ document.getElementById('cmd-input').focus(); }, 80);
+      if (tab.dataset.play === 'simulator' && latestResults) setTimeout(function(){ drawChart(latestResults.avalanche, latestResults.snowball); }, 80);
     });
   });
 
@@ -539,47 +619,299 @@
     cmdInput.value = ''; cmdOutput.scrollTop = cmdOutput.scrollHeight;
   });
 
-  var canvas = document.getElementById('snake-canvas');
-  var ctx = canvas.getContext('2d');
-  var scoreEl = document.getElementById('snake-score'); var bestEl = document.getElementById('snake-best');
-  var grid = 21, cell = canvas.width / grid, snake, food, dir, nextDir, timer, score = 0, best = 0, running = false;
-  function randomFood() {
-    var f;
-    do { f = {x: Math.floor(Math.random()*grid), y: Math.floor(Math.random()*grid)}; }
-    while (snake.some(function(p){return p.x===f.x && p.y===f.y;}));
-    return f;
+  var runnerCanvas = document.getElementById('runner-canvas');
+  var runnerCtx = runnerCanvas.getContext('2d');
+  var runnerScoreEl = document.getElementById('runner-score');
+  var runnerBestEl = document.getElementById('runner-best');
+  var runner = {state:'ready', score:0, best:0, speed:300, distance:0, last:0, spawnIn:620, ground:304, obstacles:[], dino:{x:74,y:252,w:48,h:52,vy:0,onGround:true}};
+  function resetRunner() {
+    runner.state = 'ready'; runner.score = 0; runner.speed = 300; runner.distance = 0; runner.last = 0; runner.spawnIn = 620; runner.obstacles = [];
+    runner.dino.y = runner.ground - runner.dino.h; runner.dino.vy = 0; runner.dino.onGround = true;
+    runnerScoreEl.textContent = '0'; drawRunner();
   }
-  function drawSnake(message) {
-    ctx.fillStyle = '#06100e'; ctx.fillRect(0,0,canvas.width,canvas.height);
-    ctx.strokeStyle = '#10251f'; ctx.lineWidth = 1;
-    for (var i=1;i<grid;i++){ctx.beginPath();ctx.moveTo(i*cell,0);ctx.lineTo(i*cell,canvas.height);ctx.stroke();ctx.beginPath();ctx.moveTo(0,i*cell);ctx.lineTo(canvas.width,i*cell);ctx.stroke();}
-    if (food) { ctx.fillStyle='#ffb86c'; ctx.beginPath(); ctx.arc(food.x*cell+cell/2,food.y*cell+cell/2,cell*.32,0,Math.PI*2); ctx.fill(); }
-    (snake||[]).forEach(function(p,i){ctx.fillStyle=i===0?'#caffeb':'#5ee8b5';ctx.fillRect(p.x*cell+2,p.y*cell+2,cell-4,cell-4);});
-    if (message) { ctx.fillStyle='rgba(6,16,14,.75)';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#f1fff9';ctx.textAlign='center';ctx.font='600 22px IBM Plex Mono, monospace';ctx.fillText(message,canvas.width/2,canvas.height/2);ctx.font='14px IBM Plex Mono, monospace';ctx.fillStyle='#8eb7a9';ctx.fillText('Press Start',canvas.width/2,canvas.height/2+31); }
+  function startRunner(withJump) {
+    runner.state = 'running'; runner.score = 0; runner.speed = 300; runner.distance = 0; runner.spawnIn = 560; runner.obstacles = [];
+    runner.dino.y = runner.ground - runner.dino.h; runner.dino.vy = 0; runner.dino.onGround = true; runner.last = performance.now();
+    runnerScoreEl.textContent = '0';
+    if (withJump) jumpRunner();
+    requestAnimationFrame(runnerLoop);
   }
-  function resetSnake() { snake=[{x:10,y:10},{x:9,y:10},{x:8,y:10}]; dir={x:1,y:0};nextDir={x:1,y:0};score=0;scoreEl.textContent='0';food=randomFood();drawSnake(); }
-  function startSnake(){ clearInterval(timer);resetSnake();running=true;timer=setInterval(tick,115); }
-  function tick(){dir=nextDir;var head={x:snake[0].x+dir.x,y:snake[0].y+dir.y};if(head.x<0||head.y<0||head.x>=grid||head.y>=grid||snake.some(function(p){return p.x===head.x&&p.y===head.y;})){running=false;clearInterval(timer);best=Math.max(best,score);bestEl.textContent=best;drawSnake('GAME OVER');return;}snake.unshift(head);if(head.x===food.x&&head.y===food.y){score++;scoreEl.textContent=score;best=Math.max(best,score);bestEl.textContent=best;food=randomFood();}else snake.pop();drawSnake();}
-  function setDir(name){var d={up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}}[name];if(d && !(d.x===-dir.x&&d.y===-dir.y))nextDir=d;}
-  document.getElementById('snake-start').addEventListener('click', startSnake);
-  document.querySelectorAll('[data-dir]').forEach(function(b){b.addEventListener('click',function(){setDir(b.dataset.dir);});});
-  window.addEventListener('keydown',function(e){if(!document.getElementById('play-snake').classList.contains('active'))return;var keys={ArrowUp:'up',w:'up',ArrowDown:'down',s:'down',ArrowLeft:'left',a:'left',ArrowRight:'right',d:'right'};if(keys[e.key]){e.preventDefault();setDir(keys[e.key]);if(!running)startSnake();}});
-  resetSnake(); drawSnake('SNAKE.EXE');
+  function jumpRunner() {
+    if (runner.state === 'gameover') { startRunner(true); return; }
+    if (runner.state === 'ready') { startRunner(true); return; }
+    if (runner.dino.onGround) { runner.dino.vy = -660; runner.dino.onGround = false; }
+  }
+  function spawnObstacle() {
+    var flying = runner.score >= 220 && Math.random() < .28;
+    if (flying) {
+      runner.obstacles.push({type:'fly', x:runnerCanvas.width+35, y:Math.random()<.55?210:246, w:48, h:25, flap:0});
+    } else {
+      var tall = Math.random() < .42;
+      runner.obstacles.push({type:'cactus', x:runnerCanvas.width+35, y:runner.ground-(tall?61:45), w:tall?31:27, h:tall?61:45});
+    }
+    runner.spawnIn = Math.max(310, 690 - runner.speed*.38) + Math.random()*330;
+  }
+  function runnerHit(a, b) {
+    var ax=a.x+8, ay=a.y+5, aw=a.w-15, ah=a.h-8;
+    var bx=b.x+4, by=b.y+3, bw=b.w-8, bh=b.h-5;
+    return ax < bx+bw && ax+aw > bx && ay < by+bh && ay+ah > by;
+  }
+  function runnerLoop(now) {
+    if (runner.state !== 'running') return;
+    var dt = Math.min((now-runner.last)/1000, .032); runner.last = now;
+    runner.distance += runner.speed * dt; runner.score = Math.floor(runner.distance / 12); runner.speed = Math.min(620, 300 + runner.score*.42);
+    runnerScoreEl.textContent = String(runner.score).padStart(5,'0');
+    runner.dino.vy += 1780*dt; runner.dino.y += runner.dino.vy*dt;
+    if (runner.dino.y >= runner.ground-runner.dino.h) { runner.dino.y=runner.ground-runner.dino.h; runner.dino.vy=0; runner.dino.onGround=true; }
+    runner.spawnIn -= runner.speed*dt;
+    if (runner.spawnIn <= 0) spawnObstacle();
+    runner.obstacles.forEach(function(o){ o.x -= runner.speed*dt; o.flap = (o.flap||0) + dt; });
+    runner.obstacles = runner.obstacles.filter(function(o){ return o.x+o.w > -20; });
+    if (runner.obstacles.some(function(o){ return runnerHit(runner.dino,o); })) {
+      runner.state='gameover'; runner.best=Math.max(runner.best,runner.score); runnerBestEl.textContent=String(runner.best).padStart(5,'0'); drawRunner(); return;
+    }
+    drawRunner(); requestAnimationFrame(runnerLoop);
+  }
+  function drawDino() {
+    var c=runnerCtx, d=runner.dino, x=Math.round(d.x), y=Math.round(d.y);
+    c.fillStyle='#5ee8b5';
+    c.fillRect(x+7,y+13,29,28); c.fillRect(x+24,y+2,24,22); c.fillRect(x+2,y+28,15,9); c.fillRect(x,y+22,8,9);
+    c.fillRect(x+14,y+39,8,10); c.fillRect(x+31,y+38,8,11);
+    if (!d.onGround) { c.fillRect(x+17,y+46,7,4); c.fillRect(x+34,y+45,8,4); }
+    else if (Math.floor(runner.distance/38)%2) { c.fillRect(x+12,y+47,10,4); c.fillRect(x+34,y+42,5,9); }
+    else { c.fillRect(x+17,y+42,5,9); c.fillRect(x+30,y+47,10,4); }
+    c.fillStyle='#06100e'; c.fillRect(x+39,y+7,4,4); c.fillRect(x+36,y+21,12,5); c.fillRect(x+24,y+29,6,5);
+  }
+  function drawCactus(o) {
+    var c=runnerCtx, x=Math.round(o.x), y=Math.round(o.y);
+    c.fillStyle='#ffb86c'; c.fillRect(x+9,y,o.w-18,o.h); c.fillRect(x+2,y+14,9,7); c.fillRect(x+2,y+7,6,18); c.fillRect(x+o.w-11,y+22,9,7); c.fillRect(x+o.w-7,y+14,6,18); c.fillRect(x+5,y+o.h-5,o.w-10,5);
+  }
+  function drawFlyer(o) {
+    var c=runnerCtx, x=Math.round(o.x), y=Math.round(o.y), wing=Math.floor(o.flap*9)%2;
+    c.fillStyle='#ffb86c'; c.fillRect(x+11,y+7,29,15); c.fillRect(x+36,y+3,10,10); c.fillRect(x+3,y+10,11,7);
+    if (wing) { c.fillRect(x+15,y,15,6); c.fillRect(x+17,y+22,16,5); } else { c.fillRect(x+12,y+3,8,7); c.fillRect(x+29,y+18,8,7); }
+    c.fillStyle='#06100e'; c.fillRect(x+41,y+5,3,3);
+  }
+  function drawRunner() {
+    var c=runnerCtx, w=runnerCanvas.width, h=runnerCanvas.height;
+    c.fillStyle='#06100e'; c.fillRect(0,0,w,h);
+    c.strokeStyle='#10251f'; c.lineWidth=1;
+    for(var gx=-((runner.distance*.25)%44);gx<w;gx+=44){c.beginPath();c.moveTo(gx,0);c.lineTo(gx,h);c.stroke();}
+    for(var gy=40;gy<h;gy+=44){c.beginPath();c.moveTo(0,gy);c.lineTo(w,gy);c.stroke();}
+    c.strokeStyle='#5ee8b5'; c.lineWidth=2; c.beginPath(); c.moveTo(0,runner.ground+.5); c.lineTo(w,runner.ground+.5); c.stroke();
+    c.fillStyle='#24443a';
+    for(var i=-((runner.distance)%36);i<w;i+=36)c.fillRect(i,runner.ground+13,18,3);
+    runner.obstacles.forEach(function(o){ if(o.type==='fly')drawFlyer(o);else drawCactus(o); });
+    drawDino();
+    c.textAlign='right'; c.textBaseline='top'; c.font='600 13px IBM Plex Mono, monospace'; c.fillStyle='#8eb7a9'; c.fillText('SPEED '+Math.round(runner.speed),w-18,17);
+    if (runner.state !== 'running') {
+      c.fillStyle='rgba(6,16,14,.78)'; c.fillRect(0,0,w,h);
+      c.textAlign='center'; c.textBaseline='middle'; c.fillStyle='#f1fff9'; c.font='600 25px IBM Plex Mono, monospace';
+      c.fillText(runner.state==='gameover'?'RUN OVER':'DINO.RUN',w/2,h/2-17);
+      c.font='14px IBM Plex Mono, monospace'; c.fillStyle='#8eb7a9';
+      c.fillText(runner.state==='gameover'?'Tap to restart':'Tap to jump',w/2,h/2+20);
+    }
+  }
+  document.getElementById('runner-start').addEventListener('click', function(){ startRunner(false); runnerCanvas.focus(); });
+  runnerCanvas.addEventListener('pointerdown', function(e){ e.preventDefault(); jumpRunner(); runnerCanvas.focus(); });
+  runnerCanvas.addEventListener('keydown', function(e){ if(e.key===' '||e.key==='ArrowUp'){e.preventDefault();jumpRunner();} });
+  window.addEventListener('keydown',function(e){if(!document.getElementById('play-runner').classList.contains('active'))return;if(e.key===' '||e.key==='ArrowUp'){e.preventDefault();jumpRunner();}});
+  resetRunner();
 
   var debtRows = document.getElementById('debt-rows');
   var debtCount = 0;
-  function addDebt(data) {
-    debtCount++;
-    var row=document.createElement('div');row.className='debt-row';row.dataset.id=debtCount;
-    row.innerHTML='<div class="field"><label>NAME</label><input class="debt-name" value="'+(data.name||'')+'" placeholder="Credit card" /></div><div class="field"><label>BALANCE ($)</label><input class="debt-balance" type="number" min="0" step="0.01" value="'+(data.balance||'')+'" placeholder="2500" /></div><div class="field"><label>APR (%)</label><input class="debt-apr" type="number" min="0" step="0.01" value="'+(data.apr||'')+'" placeholder="19.99" /></div><button class="remove-debt" type="button" aria-label="Remove debt">×</button>';
-    row.querySelector('.remove-debt').addEventListener('click',function(){row.remove();calculateDebts();});
-    debtRows.appendChild(row);
+  var latestResults = null;
+  var sampleDebts = [
+    {name:'Rewards card', balance:6200, apr:22.99, minimum:180},
+    {name:'Car loan', balance:14800, apr:6.49, minimum:385},
+    {name:'Student loan', balance:9200, apr:5.45, minimum:140},
+    {name:'Medical bill', balance:1800, apr:0, minimum:75}
+  ];
+  function updateTotalDebt() {
+    var total = Array.prototype.slice.call(document.querySelectorAll('.debt-balance')).reduce(function(sum, input) {
+      var value = parseFloat(input.value);
+      return sum + (isFinite(value) && value > 0 ? value : 0);
+    }, 0);
+    document.getElementById('total-debt').textContent = money(total);
   }
-  function readDebts(){return Array.prototype.slice.call(document.querySelectorAll('.debt-row')).map(function(r,i){return{name:r.querySelector('.debt-name').value.trim()||('Debt '+(i+1)),balance:parseFloat(r.querySelector('.debt-balance').value),apr:parseFloat(r.querySelector('.debt-apr').value)};}).filter(function(d){return isFinite(d.balance)&&isFinite(d.apr)&&d.balance>=0&&d.apr>=0;});}
-  function renderOrder(id, debts, mode){var list=document.getElementById(id);list.innerHTML='';debts.forEach(function(d){var li=document.createElement('li');li.innerHTML='<span></span><span></span>';li.children[0].textContent=d.name;li.children[1].textContent=mode==='apr'?d.apr.toFixed(2)+'%':'$'+d.balance.toLocaleString(undefined,{maximumFractionDigits:2});list.appendChild(li);});if(!debts.length)list.innerHTML='<li><span>Add a complete debt above</span><span>—</span></li>';}
-  function calculateDebts(){var debts=readDebts();renderOrder('avalanche-list',debts.slice().sort(function(a,b){return b.apr-a.apr||a.balance-b.balance;}),'apr');renderOrder('snowball-list',debts.slice().sort(function(a,b){return a.balance-b.balance||b.apr-a.apr;}),'balance');}
-  addDebt({name:'Credit card',balance:4200,apr:20.99});addDebt({name:'Car loan',balance:12800,apr:6.49});addDebt({name:'Student loan',balance:7600,apr:4.25});calculateDebts();
-  document.getElementById('add-debt').addEventListener('click',function(){addDebt({});});document.getElementById('calc-debt').addEventListener('click',calculateDebts);
+  function addDebt(data) {
+    data = data || {};
+    debtCount++;
+    var row = document.createElement('div');
+    row.className = 'debt-row'; row.dataset.id = debtCount;
+    row.innerHTML = '<div class="field"><label>DEBT NAME</label><input class="debt-name" placeholder="Credit card" /></div><div class="field"><label>BALANCE ($)</label><input class="debt-balance" type="number" min="0" step="0.01" placeholder="2500" inputmode="decimal" /></div><div class="field"><label>APR (%)</label><input class="debt-apr" type="number" min="0" step="0.01" placeholder="19.99" inputmode="decimal" /></div><div class="field"><label>MINIMUM ($)</label><input class="debt-minimum" type="number" min="0" step="0.01" placeholder="85" inputmode="decimal" /></div><button class="remove-debt" type="button" aria-label="Remove debt">×</button>';
+    row.querySelector('.debt-name').value = data.name || '';
+    row.querySelector('.debt-balance').value = data.balance === 0 ? '0' : (data.balance || '');
+    row.querySelector('.debt-apr').value = data.apr === 0 ? '0' : (data.apr || '');
+    row.querySelector('.debt-minimum').value = data.minimum === 0 ? '0' : (data.minimum || '');
+    row.querySelector('.debt-balance').addEventListener('input', updateTotalDebt);
+    row.querySelector('.remove-debt').addEventListener('click', function(){ row.remove(); updateTotalDebt(); });
+    debtRows.appendChild(row);
+    updateTotalDebt();
+  }
+  function loadSamples() {
+    debtRows.innerHTML = '';
+    sampleDebts.forEach(function(debt){ addDebt(debt); });
+    document.getElementById('extra-payment').value = '250';
+    calculateDebts();
+  }
+  function readDebts() {
+    var rows = Array.prototype.slice.call(document.querySelectorAll('.debt-row'));
+    var debts = [];
+    var invalid = false;
+    rows.forEach(function(r, i) {
+      var debt = {
+        id: Number(r.dataset.id),
+        name: r.querySelector('.debt-name').value.trim() || ('Debt ' + (i + 1)),
+        balance: parseFloat(r.querySelector('.debt-balance').value),
+        apr: parseFloat(r.querySelector('.debt-apr').value),
+        minimum: parseFloat(r.querySelector('.debt-minimum').value)
+      };
+      if (!isFinite(debt.balance) || !isFinite(debt.apr) || !isFinite(debt.minimum) || debt.balance <= 0 || debt.apr < 0 || debt.minimum <= 0) invalid = true;
+      else debts.push(debt);
+    });
+    return {debts: debts, invalid: invalid || !rows.length};
+  }
+  function simulate(input, mode, extra) {
+    var debts = input.map(function(d) {
+      return {id:d.id, name:d.name, balance:d.balance, originalBalance:d.balance, apr:d.apr, minimum:d.minimum};
+    });
+    var totalBudget = debts.reduce(function(sum, d){ return sum + d.minimum; }, 0) + extra;
+    var totalInterest = 0;
+    var history = [debts.reduce(function(sum, d){ return sum + d.balance; }, 0)];
+    var payoffOrder = [];
+    var month = 0;
+    while (debts.some(function(d){ return d.balance > .005; }) && month < 1200) {
+      month++;
+      debts.forEach(function(d) {
+        if (d.balance <= .005) return;
+        var interest = d.balance * (d.apr / 100 / 12);
+        d.balance += interest; totalInterest += interest;
+      });
+      var spent = 0;
+      debts.forEach(function(d) {
+        if (d.balance <= .005) return;
+        var payment = Math.min(d.balance, d.minimum);
+        d.balance -= payment; spent += payment;
+        if (d.balance <= .005) { d.balance = 0; d.payoffMonth = month; payoffOrder.push(d.id); }
+      });
+      var attack = Math.max(0, totalBudget - spent);
+      while (attack > .005) {
+        var active = debts.filter(function(d){ return d.balance > .005; });
+        if (!active.length) break;
+        active.sort(mode === 'avalanche' ? function(a,b){ return b.apr-a.apr || a.balance-b.balance; } : function(a,b){ return a.balance-b.balance || b.apr-a.apr; });
+        var focus = active[0];
+        var attackPayment = Math.min(focus.balance, attack);
+        focus.balance -= attackPayment; attack -= attackPayment;
+        if (focus.balance <= .005) { focus.balance = 0; focus.payoffMonth = month; payoffOrder.push(focus.id); }
+      }
+      var remaining = debts.reduce(function(sum, d){ return sum + d.balance; }, 0);
+      history.push(Math.max(0, remaining));
+      if (history.length > 2 && remaining >= history[history.length - 2] - .005 && totalBudget <= .005) break;
+    }
+    if (month >= 1200 || debts.some(function(d){ return d.balance > .005; })) return null;
+    return {months:month, interest:totalInterest, history:history, payoffOrder:payoffOrder, debts:debts};
+  }
+  function money(value) { return value.toLocaleString(undefined, {style:'currency', currency:'CAD', maximumFractionDigits:0}); }
+  function payoffDate(months) {
+    var date = new Date();
+    date = new Date(date.getFullYear(), date.getMonth() + months, 1);
+    return date.toLocaleDateString(undefined, {month:'short', year:'numeric'});
+  }
+  function renderStrategy(prefix, result, sourceDebts) {
+    document.getElementById(prefix + '-date').textContent = payoffDate(result.months);
+    document.getElementById(prefix + '-interest').textContent = money(result.interest);
+    document.getElementById(prefix + '-months').textContent = String(result.months);
+    var list = document.getElementById(prefix + '-list');
+    var maxBalance = Math.max.apply(null, sourceDebts.map(function(d){ return d.balance; }));
+    list.innerHTML = '';
+    result.payoffOrder.forEach(function(id, index) {
+      var original = sourceDebts.filter(function(d){ return d.id === id; })[0];
+      var paid = result.debts.filter(function(d){ return d.id === id; })[0];
+      if (!original || !paid) return;
+      var li = document.createElement('li');
+      var head = document.createElement('div'); head.className = 'debt-order-head';
+      var name = document.createElement('b'); name.textContent = (index + 1) + '. ' + original.name;
+      var meta = document.createElement('span'); meta.textContent = 'month ' + paid.payoffMonth + ' · ' + money(original.balance);
+      head.appendChild(name); head.appendChild(meta);
+      var bar = document.createElement('span'); bar.className = 'debt-bar';
+      var fill = document.createElement('i'); fill.style.width = Math.max(8, original.balance / maxBalance * 100) + '%';
+      bar.appendChild(fill); li.appendChild(head); li.appendChild(bar); list.appendChild(li);
+    });
+  }
+  function drawChart(avalanche, snowball) {
+    var canvas = document.getElementById('balance-chart');
+    var rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(rect.width * dpr); canvas.height = Math.round(rect.height * dpr);
+    var context = canvas.getContext('2d'); context.scale(dpr, dpr);
+    var width = rect.width, height = rect.height;
+    var css = getComputedStyle(document.documentElement);
+    var ink = css.getPropertyValue('--ink').trim();
+    var muted = css.getPropertyValue('--muted').trim();
+    var line = css.getPropertyValue('--line').trim();
+    var accent = css.getPropertyValue('--accent').trim();
+    var accent2 = css.getPropertyValue('--accent-2').trim();
+    context.clearRect(0, 0, width, height);
+    var pad = {left:54, right:12, top:12, bottom:32};
+    var plotW = width-pad.left-pad.right, plotH = height-pad.top-pad.bottom;
+    var maxBalance = Math.max(avalanche.history[0], snowball.history[0]);
+    var maxMonths = Math.max(avalanche.history.length-1, snowball.history.length-1);
+    context.font = '10px IBM Plex Mono, monospace'; context.fillStyle = muted; context.textAlign = 'right'; context.textBaseline = 'middle';
+    for (var yTick=0; yTick<=4; yTick++) {
+      var y = pad.top + plotH * yTick / 4;
+      context.strokeStyle = line; context.lineWidth = 1; context.beginPath(); context.moveTo(pad.left,y); context.lineTo(width-pad.right,y); context.stroke();
+      context.fillText(money(maxBalance * (1-yTick/4)).replace('CA',''), pad.left-7, y);
+    }
+    context.textAlign = 'center'; context.textBaseline = 'top';
+    for (var xTick=0; xTick<=4; xTick++) {
+      var month = Math.round(maxMonths*xTick/4), x = pad.left + plotW*xTick/4;
+      context.fillText(month === 0 ? 'Now' : month+'m', x, height-pad.bottom+10);
+    }
+    function plot(history, color) {
+      context.beginPath();
+      history.forEach(function(value, i) {
+        var x = pad.left + plotW * i / maxMonths;
+        var y = pad.top + plotH * (1 - value/maxBalance);
+        if (i === 0) context.moveTo(x,y); else context.lineTo(x,y);
+      });
+      context.strokeStyle = color; context.lineWidth = 3; context.lineJoin = 'round'; context.lineCap = 'round'; context.stroke();
+    }
+    plot(avalanche.history, accent); plot(snowball.history, accent2);
+    canvas.setAttribute('aria-label', 'Balance over time: avalanche paid off in '+avalanche.months+' months; snowball paid off in '+snowball.months+' months.');
+  }
+  function calculateDebts() {
+    var error = document.getElementById('sim-error'); error.textContent = '';
+    var data = readDebts();
+    var extra = parseFloat(document.getElementById('extra-payment').value);
+    if (data.invalid || !isFinite(extra) || extra < 0) {
+      error.textContent = 'Complete every debt with a positive balance and minimum payment, plus an APR of 0% or more.';
+      return;
+    }
+    var avalanche = simulate(data.debts, 'avalanche', extra);
+    var snowball = simulate(data.debts, 'snowball', extra);
+    if (!avalanche || !snowball) {
+      error.textContent = 'This budget does not pay the balances down within 100 years. Increase a minimum or the extra payment.';
+      return;
+    }
+    renderStrategy('avalanche', avalanche, data.debts);
+    renderStrategy('snowball', snowball, data.debts);
+    var interestDiff = Math.round(Math.abs(avalanche.interest - snowball.interest));
+    var monthDiff = Math.abs(avalanche.months - snowball.months);
+    var winner;
+    if (Math.abs(avalanche.interest - snowball.interest) < .5 && monthDiff === 0) winner = 'It’s a tie: both strategies finish together at nearly the same cost.';
+    else if (avalanche.interest <= snowball.interest) winner = 'Avalanche wins: saves '+money(interestDiff)+' in interest and '+monthDiff+' month'+(monthDiff===1?'':'s')+' vs Snowball.';
+    else winner = 'Snowball wins here: saves '+money(interestDiff)+' in interest and '+monthDiff+' month'+(monthDiff===1?'':'s')+' vs Avalanche.';
+    document.getElementById('winner-text').textContent = winner;
+    latestResults = {avalanche:avalanche, snowball:snowball};
+    drawChart(avalanche, snowball);
+  }
+  addDebt({}); addDebt({});
+  document.getElementById('load-sample').addEventListener('click', loadSamples);
+  document.getElementById('add-debt').addEventListener('click', function(){ addDebt({}); });
+  document.getElementById('calc-debt').addEventListener('click', calculateDebts);
+  window.addEventListener('resize', function(){ if (latestResults) drawChart(latestResults.avalanche, latestResults.snowball); });
 })();
 </script>
 </body>
